@@ -1,0 +1,54 @@
+openapi: 3.0.0
+info:
+  title: Latvian Weather Stations API
+  version: '1.0.0'
+servers:
+  - url: http://localhost:8080
+paths:
+  /get-all-stations:
+    get:
+      summary: List all stations
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: List of stations
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    station_id:
+                      type: string
+                    name:
+                      type: string
+        '401':
+          description: Unauthorized
+  /get-station-by-id:
+    post:
+      summary: Get station details by station_id
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: station_id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Station details
+          content:
+            application/json:
+              schema:
+                type: object
+        '404':
+          description: Not found
+        '401':
+          description: Unauthorized
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
